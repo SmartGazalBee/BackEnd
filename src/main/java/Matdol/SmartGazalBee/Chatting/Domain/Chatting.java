@@ -1,5 +1,6 @@
-package Matdol.Domain;
+package Matdol.SmartGazalBee.Chatting.Domain;
 
+import Matdol.SmartGazalBee.Auth.Domain.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,28 +10,28 @@ import java.util.Date;
 
 @Entity
 @Getter
-public class FBoardComment {
+public class Chatting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "f_comment_id")
+    @Column(name = "chat_id")
     private Long id;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "f_post_id")
+    @JoinColumn(name = "purchaser_id")
     @JsonIgnore
-    private FBoard fBoard;
+    private Member purchaser;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "seller_id")
     @JsonIgnore
-    private Member member;
+    private Member seller;
 
-    private String commentContent;
+    private String chatContent;
 
-    private Date commentDate;
+    private Date chatCreatedTime;
 
-    protected FBoardComment() {}
+    protected Chatting() {}
 }

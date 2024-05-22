@@ -1,5 +1,6 @@
-package Matdol.Domain;
+package Matdol.SmartGazalBee.FBoard.Domain;
 
+import Matdol.SmartGazalBee.Auth.Domain.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;

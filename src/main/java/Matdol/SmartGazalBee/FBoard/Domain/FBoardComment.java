@@ -1,5 +1,6 @@
-package Matdol.Domain;
+package Matdol.SmartGazalBee.FBoard.Domain;
 
+import Matdol.SmartGazalBee.Auth.Domain.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,18 +10,18 @@ import java.util.Date;
 
 @Entity
 @Getter
-public class TBoardComment {
+public class FBoardComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "t_comment_id")
+    @Column(name = "f_comment_id")
     private Long id;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "t_post_id")
+    @JoinColumn(name = "f_post_id")
     @JsonIgnore
-    private TBoard tBoard;
+    private FBoard fBoard;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,12 +33,5 @@ public class TBoardComment {
 
     private Date commentDate;
 
-    private String deviceName;
-
-    private int totalPayment; //총납부금
-
-    private String telecom; //통신사
-
-    protected TBoardComment() {}
-
+    protected FBoardComment() {}
 }

@@ -1,4 +1,4 @@
-package Matdol.Domain;
+package Matdol.SmartGazalBee.Auth.Domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;

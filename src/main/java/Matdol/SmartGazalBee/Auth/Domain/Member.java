@@ -1,5 +1,11 @@
-package Matdol.Domain;
+package Matdol.SmartGazalBee.Auth.Domain;
 
+import Matdol.SmartGazalBee.Chatting.Domain.Chatting;
+import Matdol.SmartGazalBee.TBoard.Domain.TBoard;
+import Matdol.SmartGazalBee.TBoard.Domain.TBoardComment;
+import Matdol.SmartGazalBee.FBoard.Domain.FBoard;
+import Matdol.SmartGazalBee.FBoard.Domain.FBoardComment;
+import Matdol.SmartGazalBee.FBoard.Domain.FBoardImg;
 import jakarta.persistence.*;
 import lombok.Getter;
 

@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -32,6 +35,11 @@ public class TBoard {
 
     private String postDescription;
 
+    private Long postHits = 0L; //조회수
+
+    @CreationTimestamp
+    private LocalDate postDate;
+
     //양방향 관계 설정, tBoard 삭제 시 함께 삭제되도록 cascade 설정
     @OneToMany(mappedBy = "tBoard", cascade = CascadeType.REMOVE)
     private List<TBoardComment> tBoardComments = new ArrayList<>();
@@ -44,22 +52,25 @@ public class TBoard {
 
     public TBoard() {}
 
-    public TBoard(Long purchaserId, String postTitle, String postDevice, int postPrice, String postDescription) {
-        //this.purchaser = memberRepository.findById(purchaserId);
+    public TBoard(Long purchaserId, String postTitle, String postDevice, int postPrice, String postDescription, Long postHits) {
+        //this.purchaser = purchaserRepository.findById(purchaserId);
         this.postTitle = postTitle;
         this.postDevice = postDevice;
         this.postPrice = postPrice;
         this.postDescription = postDescription;
+        this.postHits = postHits;
 
         //this.purchaser.addTBoard(this);
     }
 
-    public void updateTBoard(String postTitle, String postDevice, int postPrice, String postDescription) {
+    public void updateTBoard(String postTitle, String postDevice, int postPrice, String postDescription, Long postHits) {
         this.postTitle = postTitle;
         this.postDevice = postDevice;
         this.postPrice = postPrice;
         this.postDescription = postDescription;
+        this.postHits = postHits;
     }
+
 }
 
 

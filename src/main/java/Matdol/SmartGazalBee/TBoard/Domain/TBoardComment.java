@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -31,13 +31,15 @@ public class TBoardComment {
 
     private String commentContent;
 
-    private Date commentDate;
+    private LocalDate commentDate;
 
     private String deviceName;
 
     private int totalPayment; //총납부금
 
     private String telecom; //통신사
+
+    private Long liker; //좋아요 개수
 
     protected TBoardComment() {}
 

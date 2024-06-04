@@ -1,6 +1,7 @@
 package Matdol.SmartGazalBee.Seller.Domain;
 
 import Matdol.SmartGazalBee.Chatting.Domain.Chatting;
+import Matdol.SmartGazalBee.FBoard.Domain.FBoard;
 import Matdol.SmartGazalBee.FBoard.Domain.FBoardComment;
 import Matdol.SmartGazalBee.TBoard.Domain.TBoardComment;
 import jakarta.persistence.*;
@@ -15,14 +16,14 @@ public class Seller {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
+    @Column(name = "seller_id")
     private Long id;
 
     private String nickName;
 
     private int declaration; //누적 신고횟수
 
-    private String memberName;
+    private String sellerName;
 
     private String email;
 
@@ -38,16 +39,24 @@ public class Seller {
     @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
     private List<Chatting> sellerChattings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
+    private List<FBoard> fBoards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
     private List<FBoardComment> fBoardComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
     private List<TBoardComment> tBoardComments = new ArrayList<>();
 
     //양방향 관계 설정, Chatting 생성 시 호출하여 연관 관계 설정
     public void addChatting(Chatting chatting) {
         sellerChattings.add(chatting);
         chatting.setSeller(this);
+    }
+
+    public void addFBoard(FBoard fBoard) {
+        fBoards.add(fBoard);
+        fBoard.setSeller(this);
     }
 
     public void addFBoardComment(FBoardComment fBoardComment) {

@@ -2,6 +2,7 @@ package Matdol.SmartGazalBee.Purchaser.Domain;
 
 import Matdol.SmartGazalBee.Chatting.Domain.Chatting;
 import Matdol.SmartGazalBee.FBoard.Domain.FBoard;
+import Matdol.SmartGazalBee.FBoard.Domain.FBoardComment;
 import Matdol.SmartGazalBee.FBoard.Domain.FBoardImg;
 import Matdol.SmartGazalBee.TBoard.Domain.TBoard;
 import jakarta.persistence.*;
@@ -23,7 +24,7 @@ public class Purchaser {
 
     private int declaration; //누적 신고횟수
 
-    private String memberName;
+    private String purchaserName;
 
     private String email;
 
@@ -31,13 +32,16 @@ public class Purchaser {
     @OneToMany(mappedBy = "purchaser", cascade = CascadeType.REMOVE)
     private List<Chatting> purchaserChattings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "purchaser", cascade = CascadeType.REMOVE)
     private List<FBoard> fBoards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "purchaser", cascade = CascadeType.REMOVE)
+    private List<FBoardComment> fBoardComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "purchaser", cascade = CascadeType.REMOVE)
     private List<FBoardImg> fBoardImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "purchaser", cascade = CascadeType.REMOVE)
     private List<TBoard> tBoards = new ArrayList<>();
 
 
@@ -50,6 +54,11 @@ public class Purchaser {
     public void addFBoard(FBoard fBoard) {
         fBoards.add(fBoard);
         fBoard.setPurchaser(this);
+    }
+
+    public void addFBoardComment(FBoardComment fBoardComment) {
+        fBoardComments.add(fBoardComment);
+        fBoardComment.setPurchaser(this);
     }
 
     public void addFBoardImg(FBoardImg fBoardImg) {

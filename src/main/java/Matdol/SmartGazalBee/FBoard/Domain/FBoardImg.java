@@ -1,6 +1,6 @@
 package Matdol.SmartGazalBee.FBoard.Domain;
 
-import Matdol.SmartGazalBee.Purchaser.Domain.Purchaser;
+import Matdol.SmartGazalBee.User.Domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,9 +23,9 @@ public class FBoardImg {
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchaser_id")
+    @JoinColumn(name = "user_id")
     @JsonIgnore
-    private Purchaser purchaser;
+    private User user;
 
     private String imgPath;
 

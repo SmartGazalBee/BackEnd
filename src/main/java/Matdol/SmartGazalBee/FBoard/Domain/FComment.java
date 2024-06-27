@@ -1,18 +1,16 @@
 package Matdol.SmartGazalBee.FBoard.Domain;
 
-import Matdol.SmartGazalBee.Purchaser.Domain.Purchaser;
-import Matdol.SmartGazalBee.Seller.Domain.Seller;
+import Matdol.SmartGazalBee.User.Domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Getter
-public class FBoardComment {
+public class FComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,15 +25,9 @@ public class FBoardComment {
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchaser_id")
+    @JoinColumn(name = "user_id")
     @JsonIgnore
-    private Purchaser purchaser;
-
-    @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id")
-    @JsonIgnore
-    private Seller seller;
+    private User user;
 
     private String commentContent;
 
@@ -43,5 +35,5 @@ public class FBoardComment {
 
     private Long liker; //좋아요 개수
 
-    protected FBoardComment() {}
+    protected FComment() {}
 }

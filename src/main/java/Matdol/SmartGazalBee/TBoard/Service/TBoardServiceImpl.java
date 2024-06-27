@@ -1,9 +1,8 @@
 package Matdol.SmartGazalBee.TBoard.Service;
 
-import Matdol.SmartGazalBee.TBoard.Controller.TBoardDTO;
+import Matdol.SmartGazalBee.TBoard.Domain.TBoardDTO;
 import Matdol.SmartGazalBee.TBoard.Domain.TBoard;
 import Matdol.SmartGazalBee.TBoard.Repository.TBoardRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,59 +10,90 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
-public class TBoardServiceImpl implements TBoardService{
+public class TBoardServiceImpl implements TBoardService {
 
     private final TBoardRepository tBoardRepository;
+    //private final PurchaserRepository purchaserRepository;
 
+
+    @Override
     @Transactional
-    public TBoardDTO create(TBoardDTO tBoardDTO){
-        TBoard tBoard = tBoardDTO.toEntity();
-        tBoard = tBoardRepository.save(tBoard); //spring data jpa: 기본키 자동 증가 후 tBoard에 자동 할당
-
-        return TBoardDTO.fromEntity(tBoard);
+    public TBoardDTO create(TBoardDTO tBoardDTO) {
+        TBoard tBoard = toEntity(tBoardDTO);
+        tBoard = tBoardRepository.save(tBoard);
+        return fromEntity(tBoard);
     }
 
+    @Override
     @Transactional
     public TBoardDTO update(TBoardDTO tBoardDTO, Long postId) {
-        TBoard requstTBoard = tBoardDTO.toEntity();
-        TBoard serverTBoard = tBoardRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("TBoard not found with id: " + postId));
+        TBoard tBoard = tBoardRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid TBoard ID"));
 
-        serverTBoard.updateTBoard(requstTBoard.getPostTitle(), requstTBoard.getPostDevice(), requstTBoard.getPostPrice(), requstTBoard.getPostDescription(), requstTBoard.getPostHits());
-        serverTBoard = tBoardRepository.save(serverTBoard);
+        tBoard.updateTBoard(tBoardDTO.getPostTitle(), tBoardDTO.getPostDevice(), tBoardDTO.getPostPrice(),
+                tBoardDTO.getPostDescription(), tBoardDTO.getPostHits());
+        tBoard = tBoardRepository.save(tBoard);
 
-        return TBoardDTO.fromEntity(serverTBoard);
+        return fromEntity(tBoard);
     }
 
+    @Override
     @Transactional
     public void delete(Long postId) {
         TBoard tBoard = tBoardRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("TBoard not found with id: " + postId));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid TBoard ID"));
         tBoardRepository.delete(tBoard);
     }
 
-    public Page<TBoardDTO> findAll(Pageable pageable){
+    @Override
+    public Page<TBoardDTO> findAll(Pageable pageable) {
         Page<TBoard> tBoardPage = tBoardRepository.findAll(pageable);
-        return tBoardPage.map(TBoardDTO::fromEntity);
+        return tBoardPage.map(this::fromEntity);
     }
 
-    public Page<TBoardDTO> findMyPosts(Pageable pageable, Long purchaserId){
+    @Override
+    public Page<TBoardDTO> findMyPosts(Pageable pageable, Long purchaserId) {
         Page<TBoard> tBoardPage = tBoardRepository.findMyPosts(pageable, purchaserId);
-        return tBoardPage.map(TBoardDTO::fromEntity);
+        return tBoardPage.map(this::fromEntity);
     }
 
-    public Page<TBoardDTO> findPopularPosts(Pageable pageable, Long standard){
+    @Override
+    public Page<TBoardDTO> findPopularPosts(Pageable pageable, Long standard) {
         Page<TBoard> tBoardPage = tBoardRepository.findPopularPosts(pageable, standard);
-        return tBoardPage.map(TBoardDTO::fromEntity);
+        return tBoardPage.map(this::fromEntity);
     }
 
-    public Page<TBoardDTO> findRecentPosts(Pageable pageable){
+    @Override
+    public Page<TBoardDTO> findRecentPosts(Pageable pageable) {
         LocalDate standard = LocalDate.now().minusDays(3);
         Page<TBoard> tBoardPage = tBoardRepository.findRecentPosts(pageable, standard);
-        return tBoardPage.map(TBoardDTO::fromEntity);
+        return tBoardPage.map(this::fromEntity);
+    }
+
+    private TBoard toEntity(TBoardDTO tBoardDTO) {
+        return new TBoard(
+                //purchaserRepository.findById(tBoardDTO.getPurchaserId())
+                // .orElseThrow(() -> new IllegalArgumentException("Invalid purchaser ID")),
+                tBoardDTO.getPostTitle(),
+                tBoardDTO.getPostDevice(),
+                tBoardDTO.getPostPrice(),
+                tBoardDTO.getPostDescription(),
+                tBoardDTO.getPostHits()
+        );
+    }
+
+    private TBoardDTO fromEntity(TBoard tBoard) {
+        return new TBoardDTO(
+                tBoard.getId(),
+                //tBoard.getPurchaser().getId(),
+                tBoard.getPostTitle(),
+                tBoard.getPostDevice(),
+                tBoard.getPostPrice(),
+                tBoard.getPostDescription(),
+                tBoard.getPostHits()
+        );
     }
 }

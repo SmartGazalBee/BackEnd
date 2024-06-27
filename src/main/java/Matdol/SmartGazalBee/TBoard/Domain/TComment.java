@@ -1,6 +1,6 @@
 package Matdol.SmartGazalBee.TBoard.Domain;
 
-import Matdol.SmartGazalBee.Seller.Domain.Seller;
+import Matdol.SmartGazalBee.User.Domain.Seller;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-public class TBoardComment {
+public class TComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +41,17 @@ public class TBoardComment {
 
     private Long liker; //좋아요 개수
 
-    protected TBoardComment() {}
+    protected TComment() {}
+
+    public TComment(TBoard tBoard, /*Seller seller,*/ String commentContent, String deviceName, int totalPayment, String telecom, Long liker) {
+        this.tBoard = tBoard;
+        /*this.seller = seller;*/
+        this.commentContent = commentContent;
+        this.deviceName = deviceName;
+        this.totalPayment = totalPayment;
+        this.telecom = telecom;
+        this.liker = liker;
+    }
+
 
 }

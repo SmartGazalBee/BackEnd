@@ -1,14 +1,12 @@
 package Matdol.SmartGazalBee.Chatting.Domain;
 
-import Matdol.SmartGazalBee.Purchaser.Domain.Purchaser;
-import Matdol.SmartGazalBee.Seller.Domain.Seller;
+import Matdol.SmartGazalBee.User.Domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -21,19 +19,19 @@ public class Chatting {
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchaser_id")
+    @JoinColumn(name = "from_id")
     @JsonIgnore
-    private Purchaser purchaser;
+    private User fromUser;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id")
+    @JoinColumn(name = "To_id")
     @JsonIgnore
-    private Seller seller;
+    private User toUser;
 
     private String chatContent;
 
-    private LocalDate chatCreatedTime;
+    private LocalDate chatTime;
 
     protected Chatting() {}
 }

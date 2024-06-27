@@ -3,6 +3,7 @@ package Matdol.SmartGazalBee.TBoard.Controller;
 import Matdol.SmartGazalBee.Common.BeeResponse;
 import Matdol.SmartGazalBee.Common.ResponseBody;
 import Matdol.SmartGazalBee.Common.Status;
+import Matdol.SmartGazalBee.TBoard.Domain.TBoardDTO;
 import Matdol.SmartGazalBee.TBoard.Service.TBoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

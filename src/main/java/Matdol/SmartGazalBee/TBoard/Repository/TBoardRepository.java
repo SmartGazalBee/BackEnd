@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Repository
 public interface TBoardRepository extends JpaRepository<TBoard, Long> {
@@ -23,4 +22,5 @@ public interface TBoardRepository extends JpaRepository<TBoard, Long> {
 
     @Query(value = "SELECT t FROM TBoard t WHERE t.postDate >= :standard ORDER BY t.postDate DESC")
     public Page<TBoard> findRecentPosts(Pageable pageable, @Param("standard") LocalDate standard);
+
 }

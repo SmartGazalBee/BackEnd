@@ -1,11 +1,8 @@
 package Matdol.SmartGazalBee.TBoard.Service;
 
-import Matdol.SmartGazalBee.TBoard.Controller.TBoardDTO;
+import Matdol.SmartGazalBee.TBoard.Domain.TBoardDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 public interface TBoardService {
     public TBoardDTO create(TBoardDTO tBoardDTO);

@@ -7,7 +7,6 @@ import lombok.Getter;
 @Getter
 public enum Status implements MessageFormat{
     RUN("RU01", "execution clear"),
-
     ;
     String statusCode;
     String message;

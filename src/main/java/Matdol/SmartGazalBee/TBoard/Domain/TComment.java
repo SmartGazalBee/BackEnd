@@ -1,6 +1,6 @@
 package Matdol.SmartGazalBee.TBoard.Domain;
 
-import Matdol.SmartGazalBee.User.Domain.Seller;
+import Matdol.SmartGazalBee.User.Domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,7 +27,7 @@ public class TComment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
     @JsonIgnore
-    private Seller seller;
+    private User seller;
 
     private String commentContent;
 

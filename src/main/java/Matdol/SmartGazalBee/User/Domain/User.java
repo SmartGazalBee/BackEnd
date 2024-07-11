@@ -1,18 +1,19 @@
 package Matdol.SmartGazalBee.User.Domain;
 
 import Matdol.SmartGazalBee.Chatting.Domain.Chatting;
-import Matdol.SmartGazalBee.FBoard.Domain.FBoard;
-import Matdol.SmartGazalBee.FBoard.Domain.FBoardImg;
-import Matdol.SmartGazalBee.FBoard.Domain.FComment;
+import Matdol.SmartGazalBee.TBoard.Domain.TBoard;
+import Matdol.SmartGazalBee.TBoard.Domain.TComment;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "user_type")
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -21,22 +22,36 @@ public class User {
 
     private String nickname;
 
-    //양방향 관계 설정, purchaser 삭제 시 함께 삭제되도록 cascade 설정
+    private String name;
+
+    private String loginEmail;
+
+    private String loginPw; //암호화하기
+
+    private int declaration; //누적 신고횟수
+
+    private UserType userType; //구매자 혹은 판매자
+
+    //양방향 관계 설정, 삭제 시 함께 삭제되도록 cascade 설정
     @OneToMany(mappedBy = "fromUser", cascade = CascadeType.REMOVE)
     private List<Chatting> FromChattings = new ArrayList<>();
     @OneToMany(mappedBy = "toUser", cascade = CascadeType.REMOVE)
     private List<Chatting> ToChattings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<FBoard> fBoards = new ArrayList<>();
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
+    private List<TComment> tComments = new ArrayList<>();
+    @OneToMany(mappedBy = "purchaser", cascade = CascadeType.REMOVE)
+    private List<TBoard> tBoards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<FComment> fComments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<FBoardImg> fBoardImgs = new ArrayList<>();
-
-
+    //양방향 관계 설정,
+    public void addTBoard(TBoard tBoard) {
+        tBoards.add(tBoard);
+        tBoard.setPurchaser(this);
+    }
+    public void addTComment(TComment tComment) {
+        tComments.add(tComment);
+        tComment.setSeller(this);
+    }
     //양방향 관계 설정, Chatting 생성 시 호출하여 연관 관계 설정
     public void addFromChatting(Chatting chatting) {
         FromChattings.add(chatting);
@@ -45,21 +60,6 @@ public class User {
     public void addToChatting(Chatting chatting) {
         ToChattings.add(chatting);
         chatting.setToUser(this);
-    }
-
-    public void addFBoard(FBoard fBoard) {
-        fBoards.add(fBoard);
-        fBoard.setUser(this);
-    }
-
-    public void addFBoardComment(FComment fComment) {
-        fComments.add(fComment);
-        fComment.setUser(this);
-    }
-
-    public void addFBoardImg(FBoardImg fBoardImg) {
-        fBoardImgs.add(fBoardImg);
-        fBoardImg.setUser(this);
     }
 
    }

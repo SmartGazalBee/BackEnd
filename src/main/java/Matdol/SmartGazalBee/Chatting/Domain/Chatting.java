@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,9 +30,16 @@ public class Chatting {
     @JsonIgnore
     private User toUser;
 
-    private String chatContent;
+    private String message;
 
-    private LocalDate chatTime;
+    private LocalDateTime chatTime;
 
     protected Chatting() {}
+
+    public Chatting(User fromUser, User toUser, String message) {
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+        this.message = message;
+        this.chatTime = LocalDateTime.now();
+    }
 }

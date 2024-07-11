@@ -1,6 +1,6 @@
 package Matdol.SmartGazalBee.TBoard.Domain;
 
-import Matdol.SmartGazalBee.User.Domain.Purchaser;
+import Matdol.SmartGazalBee.User.Domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class TBoard {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchaser_id")
     @JsonIgnore
-    private Purchaser purchaser;
+    private User purchaser;
 
     private String postTitle;
 

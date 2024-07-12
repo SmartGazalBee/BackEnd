@@ -32,4 +32,17 @@ public class DeviceServiceImpl implements DeviceService{
                 deviceDao.remainfindDeviceAll(id,pageable);
     }
 
+    @Override
+    public Slice<Device> getSearchDevice(String name, Long id) {
+        Pageable pageable = PageRequest.of(0,defaultPageSize);
+        return getDevices(id,name,pageable);
+    }
+    private Slice<Device> getDevices(Long id, String name ,Pageable pageable)
+    {
+        return id == null ?
+                deviceDao.firstSearchDevice(name,pageable):
+                deviceDao.remainSearchDevice(name,id,pageable);
+    }
+
+
 }

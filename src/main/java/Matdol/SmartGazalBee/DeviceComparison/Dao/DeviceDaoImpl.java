@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class DeviceDaoImpl implements DeviceDao{
-    @Autowired
+
     private final DeviceRepository deviceRepository;
     @Override
     public Device findById(Long id) {
@@ -33,5 +33,15 @@ public class DeviceDaoImpl implements DeviceDao{
     @Override
     public Boolean existByIdLessThan(Long id) {
         return deviceRepository.existsByIdLessThan(id);
+    }
+
+    @Override
+    public Slice<Device> firstSearchDevice(String name, Pageable pageable) {
+        return deviceRepository.findByNameContainingOrderByIdDesc(name,pageable);
+    }
+
+    @Override
+    public Slice<Device> remainSearchDevice(String name, Long id, Pageable pageable) {
+        return deviceRepository.findByIdLessThanAndNameContainingOrderByIdDesc(id, name, pageable);
     }
 }

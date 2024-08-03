@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chat</title>
+    <script th:inline="javascript">
+        var myId = [[${myId}]];
+        var yourId = [[${yourId}]];
+        var username = [[${username}]];
+        var yourNickname = [[${yourNickname}]];
+    </script>
+</head>
+ <th:block th:fragment="content">
+
+        <div class="container">
+            <div class="col-6">
+                <h1>1:1 채팅</h1>
+            </div>
+            <div class='col-6' th:each="chat : ${chattingDTOList}">
+                <div th:if="${chat.fromId == myId}" class='alert alert-secondary' th:text="|${username}:${chat.message}|"></div>
+                <div th:if="${chat.fromId == yourId}" class='alert alert-secondary' th:text="|${yourNickname}:${chat.message}|"></div>
+            </div>
+            <div>
+                <div id="msgArea" class="col"></div>
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <input type="text" id="msg" class="form-control">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6"></div>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+        <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+
+    </th:block>
+
+ <script th:inline="javascript">
+     $(document).ready(function(){
+
+         // URL에서 roomId와 myId 추출
+         var urlParams = new URLSearchParams(window.location.search);
+         var yourId = window.location.pathname.split('/').pop(); // URI의 마지막 부분이 roomId
+         var myId = urlParams.get('myId'); // 쿼리 파라미터에서 myId 추출
+
+         var roomId = [[${roomId}]];
+         var username = [[${username}]];
+         var yourNickname = [[${yourNickname}]];
+
+         console.log(roomId + ", " + username);
+
+         var sockJs = new SockJS("/stomp/chat");
+         //1. SockJS를 내부에 들고있는 stomp를 내어줌
+         var stomp = Stomp.over(sockJs);
+
+         //2. connection이 맺어지면 실행
+         stomp.connect({}, function (){
+             console.log("STOMP Connection")
+
+             //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+             stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+                 var content = JSON.parse(chat.body);
+
+                 var fromId = content.fromId;
+                 var message = content.message;
+                 var str = '';
+
+                 if(fromId == myId) {
+                     str = "<div class='col-6'>";
+                     str += "<div class='alert alert-warning'>";
+                     str += "<b>" + username + " : " + message + "</b>";
+                     str += "</div></div>";
+                 }
+                 else if(fromId == yourId) {
+                     str = "<div class='col-6'>";
+                     str += "<div class='alert alert-warning'>";
+                     str += "<b>" + yourNickname + " : " + message + "</b>";
+                     str += "</div></div>";
+                 }
+
+                 $("#msgArea").append(str);
+             });
+
+             //3. send(path, header, message)로 메세지를 보낼 수 있음
+             stomp.send('/pub/chat/enter', {}, JSON.stringify({fromId: myId, toId: yourId, message: '', chatTime: new Date()}))
+         });
+
+         $("#button-send").on("click", function(e){
+             var msg = document.getElementById("msg");
+
+             console.log(username + ":" + msg.value);
+             stomp.send('/pub/chat/message', {}, JSON.stringify({fromId: myId, toId: yourId, message: msg.value, chatTime: new Date()}));
+             msg.value = '';
+         });
+     });
+ </script>
+
+</html>

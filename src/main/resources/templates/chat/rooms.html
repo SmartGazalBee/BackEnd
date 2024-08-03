@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div>
+    room list
+</div>
+    <th:block th:fragment="content">
+        <div class="container">
+            <div th:each="your : ${roomsDTOList}">
+                <ul>
+                    <li><a th:href="@{/chat/room/{id}(id=${your.id}, myId=${myId}, yourNickname=${your.nickname})}" th:text="${your.nickname}"></a></li>
+                </ul>
+            </div>
+        </div>
+    </th:block>
+
+    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+
+</html>

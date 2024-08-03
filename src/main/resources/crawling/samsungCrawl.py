@@ -25,7 +25,7 @@ def crawl_samsung_data(url, device_name):
         driver.get(url)
         
         # Wait for the page to load (adjust this time as needed)
-        time.sleep(10)
+        time.sleep(1)
         
         # Crawling memory/storage related information
         spec_items = driver.find_elements(By.CLASS_NAME, 'spec-item')
@@ -33,7 +33,7 @@ def crawl_samsung_data(url, device_name):
             tab_product = spec_item.find_element(By.CLASS_NAME, 'fp-spec__tab-product')
             button = tab_product.find_element(By.TAG_NAME, 'button')
             driver.execute_script("arguments[0].click();", button)
-            time.sleep(2)
+            time.sleep(1)
             
             # Update page source
             page_source = driver.page_source

@@ -10,7 +10,7 @@ def extract_device_name_from_url(url):
     match = pattern.search(url)
     return match.group() if match else 'Unknown Device'
 
-DATABASE_URI =
+DATABASE_URI = 'mysql+pymysql://root:1234@localhost:3306/smartgazalbee'
 engine = create_engine(DATABASE_URI)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)

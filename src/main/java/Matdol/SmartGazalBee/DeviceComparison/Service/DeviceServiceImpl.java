@@ -4,6 +4,7 @@ import Matdol.SmartGazalBee.DeviceComparison.Dao.DeviceDao;
 import Matdol.SmartGazalBee.DeviceComparison.Domain.Device;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DeviceServiceImpl implements DeviceService{
     private final int defaultPageSize = 3;
+
+    private final ApplicationEventPublisher eventPublisher;
     @Autowired
     private final DeviceDao deviceDao;
     @Override

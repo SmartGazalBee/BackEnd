@@ -28,11 +28,11 @@ public class DeviceServiceImpl implements DeviceService{
     public DeviceDto getDeviceInfo(Long id) {
 
         Device device = deviceDao.findById(id);
-        File file = fileRepository.getFile(device.getImages());
+        byte[] image = fileRepository.getFile(device.getImages());
 
         return DeviceDto.builder()
                 .device(device)
-                .image(file)
+                .image(image)
                 .build();
     }
 

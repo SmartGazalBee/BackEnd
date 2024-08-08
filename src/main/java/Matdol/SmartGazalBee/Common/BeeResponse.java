@@ -47,4 +47,6 @@ public class BeeResponse {
     public static <T> ResponseEntity<ResponseBody<T>> toResponse(MessageFormat messageFormat, T data, int status, HttpHeaders headers) {
         return ResponseEntity.status(status).headers(headers).body(toBody(messageFormat,data));
     }
+
+
 }

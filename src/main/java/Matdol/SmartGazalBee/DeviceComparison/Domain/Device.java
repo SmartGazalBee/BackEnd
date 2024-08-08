@@ -25,7 +25,7 @@ public class Device {
     private String length; // 세로
     private String height; // 두깨, 높이
     private String display; // 디스플레이 크기
-    private String diagnoal; // 대각선
+    private String diagonal; // 대각선
     private String resolution; // 해상도
     private String chip; // 프로세서
     @Column(name = "release_date")

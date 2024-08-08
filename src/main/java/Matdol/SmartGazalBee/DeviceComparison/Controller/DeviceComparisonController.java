@@ -14,15 +14,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class DeviceComparisonController {
 
@@ -32,13 +34,18 @@ public class DeviceComparisonController {
 
     private final TranslationService translationService;
 
-    @GetMapping("/device/{deviceId}")
+    @GetMapping(value = "/device/{deviceId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseBody<DeviceDto>> findDeviceInfo(@PathVariable Long deviceId)
     {
         DeviceDto device = deviceService.getDeviceInfo(deviceId);
         return BeeResponse.toResponse(Status.FIND,device);
     }
-
+    @GetMapping(value = "/deviceImage/{deviceId}",produces =MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseBody<byte []>> findDeviceImageById(@PathVariable Long deviceId)
+    {
+        DeviceDto device = deviceService.getDeviceInfo(deviceId);
+        return BeeResponse.toResponse(Status.FIND,device.getImage());
+    }
     /*
         기기 전체 조회
         요청 방식 : 처음 상태엔 null 로 보냄 -> 가장 최신순에 기기 정보를 가져옴

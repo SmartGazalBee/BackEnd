@@ -2,8 +2,9 @@ package Matdol.SmartGazalBee.DeviceComparison.Service;
 
 import Matdol.SmartGazalBee.DeviceComparison.Dao.DeviceDao;
 import Matdol.SmartGazalBee.DeviceComparison.Domain.Device;
+import Matdol.SmartGazalBee.DeviceComparison.Dto.DeviceDto;
+import Matdol.SmartGazalBee.DeviceComparison.Repository.FileRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +17,20 @@ public class DeviceServiceImpl implements DeviceService{
     private final int defaultPageSize = 3;
 
     private final ApplicationEventPublisher eventPublisher;
-    @Autowired
+
     private final DeviceDao deviceDao;
+
+    private final FileRepository fileRepository;
     @Override
-    public Device getDeviceInfo(Long id) {
-        return deviceDao.findById(id);
+    public DeviceDto getDeviceInfo(Long id) {
+
+        Device device = deviceDao.findById(id);
+        byte[] image = fileRepository.getFile(device.getImages());
+
+        return DeviceDto.builder()
+                .device(device)
+                .image(image)
+                .build();
     }
 
     @Override

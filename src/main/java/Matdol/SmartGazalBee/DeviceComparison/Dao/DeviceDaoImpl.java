@@ -4,8 +4,6 @@ import Matdol.SmartGazalBee.DeviceComparison.Domain.Device;
 import Matdol.SmartGazalBee.DeviceComparison.Repository.DeviceRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;

@@ -5,7 +5,6 @@ import Matdol.SmartGazalBee.DeviceComparison.Domain.Device;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 @Component
 @RequiredArgsConstructor
@@ -17,4 +16,5 @@ public class DeviceMapper {
                 .hasNext(devices.hasNext())
                 .build();
     }
+
 }

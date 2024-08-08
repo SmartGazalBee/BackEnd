@@ -17,4 +17,5 @@ public class DeviceMapper {
                 .hasNext(devices.hasNext())
                 .build();
     }
+
 }

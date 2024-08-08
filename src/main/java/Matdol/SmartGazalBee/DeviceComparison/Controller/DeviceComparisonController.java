@@ -5,6 +5,7 @@ import Matdol.SmartGazalBee.Common.Paging.SliceResponse;
 import Matdol.SmartGazalBee.Common.ResponseBody;
 import Matdol.SmartGazalBee.Common.Status;
 import Matdol.SmartGazalBee.DeviceComparison.Domain.Device;
+import Matdol.SmartGazalBee.DeviceComparison.Dto.DeviceDto;
 import Matdol.SmartGazalBee.DeviceComparison.Mapper.DeviceMapper;
 import Matdol.SmartGazalBee.DeviceComparison.Service.DeviceService;
 import Matdol.SmartGazalBee.DeviceComparison.Service.TranslationService;
@@ -32,9 +33,9 @@ public class DeviceComparisonController {
     private final TranslationService translationService;
 
     @GetMapping("/device/{deviceId}")
-    public ResponseEntity<ResponseBody<Device>> findDeviceInfo(@PathVariable Long deviceId)
+    public ResponseEntity<ResponseBody<DeviceDto>> findDeviceInfo(@PathVariable Long deviceId)
     {
-        Device device = deviceService.getDeviceInfo(deviceId);
+        DeviceDto device = deviceService.getDeviceInfo(deviceId);
         return BeeResponse.toResponse(Status.FIND,device);
     }
 

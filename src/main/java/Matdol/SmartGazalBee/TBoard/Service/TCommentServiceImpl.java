@@ -1,5 +1,6 @@
 package Matdol.SmartGazalBee.TBoard.Service;
 
+import Matdol.SmartGazalBee.Common.Event.BoardEvent;
 import Matdol.SmartGazalBee.TBoard.Domain.TCommentDTO;
 import Matdol.SmartGazalBee.TBoard.Domain.TBoard;
 import Matdol.SmartGazalBee.TBoard.Domain.TComment;
@@ -7,6 +8,7 @@ import Matdol.SmartGazalBee.TBoard.Repository.TBoardRepository;
 import Matdol.SmartGazalBee.TBoard.Repository.TCommentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public class TCommentServiceImpl implements TCommentService{
 
     private final TBoardRepository tBoardRepository;
     private final TCommentRepository tCommentRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
     //private final SellerRepository sellerRepository;
 
     @Override
@@ -28,6 +31,8 @@ public class TCommentServiceImpl implements TCommentService{
                 .orElseThrow(() -> new IllegalArgumentException("Invalid TComment ID"));
         tComment.setTBoard(tBoard);
         tComment = tCommentRepository.save(tComment);
+        /*이벤트 호출 */
+        applicationEventPublisher.publishEvent(new BoardEvent(tBoard.getId(),tComment.getId(),tComment.getCommentContent(),tBoard.getPurchaser().getId()));
         return fromEntity(tComment);
     }
 

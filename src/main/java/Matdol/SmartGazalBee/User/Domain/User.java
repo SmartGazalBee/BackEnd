@@ -30,6 +30,8 @@ public class User {
 
     private int declaration; //누적 신고횟수
 
+    private String fcmToken; //fcmToken
+
     private UserType userType; //구매자 혹은 판매자
 
     //양방향 관계 설정, 삭제 시 함께 삭제되도록 cascade 설정

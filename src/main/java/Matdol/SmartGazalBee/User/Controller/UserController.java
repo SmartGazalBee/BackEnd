@@ -30,6 +30,7 @@ public class UserController {
         user.setLoginPw("12345678");
         user.setDeclaration(0);
         user.setUserType(UserType.purchaser);
+        user.setFcmToken("eVKh4w_pSJOczv1JpKOFFt:APA91bHjggpcmeAVU0LXWV5rY7eRiPkUaMqHDDl4JrOoHtfE7H34HBfvRCZq93Rd3MYVYE_KZE5RoBLBDZR6V5wWFeR1BxCvon5bhHyJrMqC_714nNX9UL2dbcj9Nia2UrS9CPJiNsb0"); //임의로 생성
 
         userRepository.save(user);
 

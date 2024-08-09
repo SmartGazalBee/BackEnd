@@ -3,8 +3,11 @@ package Matdol.SmartGazalBee.TBoard.Service;
 import Matdol.SmartGazalBee.TBoard.Domain.TBoardDTO;
 import Matdol.SmartGazalBee.TBoard.Domain.TBoard;
 import Matdol.SmartGazalBee.TBoard.Repository.TBoardRepository;
+import Matdol.SmartGazalBee.User.Domain.User;
+import Matdol.SmartGazalBee.User.Repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,10 +16,11 @@ import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TBoardServiceImpl implements TBoardService {
 
     private final TBoardRepository tBoardRepository;
-    //private final PurchaserRepository purchaserRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -75,8 +79,8 @@ public class TBoardServiceImpl implements TBoardService {
 
     private TBoard toEntity(TBoardDTO tBoardDTO) {
         return new TBoard(
-                //purchaserRepository.findById(tBoardDTO.getPurchaserId())
-                // .orElseThrow(() -> new IllegalArgumentException("Invalid purchaser ID")),
+                userRepository.findById(tBoardDTO.getPurchaserId())
+                 .orElseThrow(() -> new IllegalArgumentException("Invalid purchaser ID")),
                 tBoardDTO.getPostTitle(),
                 tBoardDTO.getPostDevice(),
                 tBoardDTO.getPostPrice(),
@@ -88,7 +92,7 @@ public class TBoardServiceImpl implements TBoardService {
     private TBoardDTO fromEntity(TBoard tBoard) {
         return new TBoardDTO(
                 tBoard.getId(),
-                //tBoard.getPurchaser().getId(),
+                tBoard.getPurchaser().getId(),
                 tBoard.getPostTitle(),
                 tBoard.getPostDevice(),
                 tBoard.getPostPrice(),

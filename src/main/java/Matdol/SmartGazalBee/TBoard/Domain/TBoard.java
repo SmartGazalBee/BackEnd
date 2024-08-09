@@ -51,15 +51,15 @@ public class TBoard {
 
     public TBoard() {}
 
-    public TBoard(/*Purchaser purchaser,*/ String postTitle, String postDevice, int postPrice, String postDescription, Long postHits) {
-        //this.purchaser = purchaser;
+    public TBoard(User purchaser, String postTitle, String postDevice, int postPrice, String postDescription, Long postHits) {
+        this.purchaser = purchaser;
         this.postTitle = postTitle;
         this.postDevice = postDevice;
         this.postPrice = postPrice;
         this.postDescription = postDescription;
         this.postHits = postHits;
 
-        //this.purchaser.addTBoard(this);
+        this.purchaser.addTBoard(this);
     }
 
     public void updateTBoard(String postTitle, String postDevice, int postPrice, String postDescription, Long postHits) {

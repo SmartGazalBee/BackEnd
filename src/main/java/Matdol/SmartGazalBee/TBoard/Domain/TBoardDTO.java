@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TBoardDTO {
     private Long id;
-    //private Long purchaserId;
+    private Long purchaserId;
     private String postTitle;
     private String postDevice;
     private int postPrice;

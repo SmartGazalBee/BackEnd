@@ -2,7 +2,6 @@ package Matdol.SmartGazalBee.Common;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.apache.coyote.Response;
 
 @Getter
 public class ResponseBody<T> {

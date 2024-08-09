@@ -7,9 +7,7 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.Locale;
 
@@ -38,4 +36,6 @@ public class FcmServiceImpl implements FcmService{
                 .setToken(fcmToken)
                 .build();
     }
+
+
 }

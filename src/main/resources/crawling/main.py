@@ -10,7 +10,7 @@ def extract_device_name_from_url(url):
     match = pattern.search(url)
     return match.group() if match else 'Unknown Device'
 
-DATABASE_URI = 'mysql+pymysql://root:1234@localhost:3305/crwal'
+DATABASE_URI =
 engine = create_engine(DATABASE_URI)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
@@ -74,7 +74,7 @@ def crawl_and_save(url, brand,device_name):
 
 if __name__ == "__main__":
     apple_url = 'https://www.apple.com/kr/{}/specs/'
-    apple_device_identifier ='iphone-15-pro'
+    apple_device_identifier ='iphone-16-pro'
     apple_url=apple_url.format(apple_device_identifier)
     
     samsung_url= 'https://www.samsung.com/sec/smartphones/{}/specs/'
